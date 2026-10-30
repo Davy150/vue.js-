@@ -1,0 +1,299 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TaskFlow | Organize sua rotina</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="app">
+        <div class="layout">
+
+            <aside class="barra-lateral">
+
+                <a href="#inicio" class="logo">
+                   
+
+                    <div>
+                        <h1>TaskFlow<span>.</span></h1>
+                        <p>ORGANIZE SUA ROTINA</p>
+                    </div>
+                </a>
+
+                <nav class="navegacao">
+                    <a href="#inicio" class="link-nav ativo">
+                        <span>⌂</span> Início
+                    </a>
+
+                    <a href="#tarefas" class="link-nav">
+                        <span>☷</span> Minhas tarefas
+                    </a>
+
+                    <a href="#adicionar" class="link-nav">
+                        <span>＋</span> Nova tarefa
+                    </a>
+                </nav>
+
+                <div class="frase-lateral">
+                     
+
+                    <p>
+                        Pequenas tarefas
+                        geram grandes
+                        resultados.
+                    </p>
+
+                    <span class="linha-decorativa"></span>
+                </div>
+
+                <div class="rodape-lateral">
+                    FEITO PARA EVOLUIR.
+                </div>
+
+            </aside>
+
+            <main class="conteudo" id="inicio">
+
+                <header class="topo">
+                    <div>
+                        <p class="data-label">SEU ESPAÇO DE ORGANIZAÇÃO</p>
+                        <p class="saudacao">Olá! Vamos fazer acontecer?</p>
+                    </div>
+
+                    <div class="indicador">
+                        <span class="ponto"></span>
+                        <span>{{ quantidadePendentes }} tarefas pendentes</span>
+                    </div>
+                </header>
+
+                <section class="hero">
+
+                    <div class="hero-texto">
+                        <span class="etiqueta">SEU DIA, SOB CONTROLE</span>
+
+                        <h2>
+                            Suas tarefas.<br>
+                            <span>Sua evolução.</span>
+                        </h2>
+
+                        <p>
+                            Organize suas ideias, acompanhe seu progresso
+                            e transforme pequenos passos em grandes conquistas.
+                        </p>
+
+                        <a href="#adicionar" class="botao-hero">
+                            Começar agora <span>↗</span>
+                        </a>
+                    </div>
+
+                    <div class="hero-visual" aria-hidden="true">
+                        <div class="circulo circulo-externo"></div>
+                        <div class="circulo circulo-interno"></div>
+
+                        <div class="cartao-flutuante">
+                            <div class="cartao-flutuante-topo">
+                               
+                                <span>MEU PROGRESSO</span>
+                            </div>
+
+                            <div class="check-grande">✓</div>
+
+                            <div class="barras">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+
+                            <p>Um passo de cada vez.</p>
+                        </div>
+
+                        <span class="estrela estrela-tres">✳</span>
+                    </div>
+
+                </section>
+
+                <section class="estatisticas">
+
+                    <article class="cartao estatistica-total">
+                        <div class="estatistica-topo">
+                            <span class="icone-estatistica">▤</span>
+                            <span class="mini-label">GERAL</span>
+                        </div>
+
+                        <p>Total de tarefas</p>
+                        <h3>{{ quantidadeTarefas }}</h3>
+
+                        <span class="descricao-estatistica">
+                            Todas as suas atividades
+                        </span>
+                    </article>
+
+                    <article class="cartao estatistica-pendente">
+                        <div class="estatistica-topo">
+                            <span class="icone-estatistica">◷</span>
+                            <span class="mini-label">EM ANDAMENTO</span>
+                        </div>
+
+                        <p>Pendentes</p>
+                        <h3>{{ quantidadePendentes }}</h3>
+
+                        <span class="descricao-estatistica">
+                            Ainda há tempo para fazer
+                        </span>
+                    </article>
+
+                    <article class="cartao estatistica-concluida">
+                        <div class="estatistica-topo">
+                            <span class="icone-estatistica">✓</span>
+                            <span class="mini-label">CONQUISTAS</span>
+                        </div>
+
+                        <p>Concluídas</p>
+                        <h3>{{ quantidadeConcluidas }}</h3>
+
+                        <span class="descricao-estatistica">
+                            Cada passo conta
+                        </span>
+                    </article>
+
+                </section>
+
+                <section class="painel adicionar-painel" id="adicionar">
+
+                    <div class="titulo-painel">
+                        <div class="icone-painel">＋</div>
+
+                        <div>
+                            <h2>Nova tarefa</h2>
+                            <p>Qual é o seu próximo objetivo?</p>
+                        </div>
+                    </div>
+
+                    <form class="formulario" @submit.prevent="adicionarTarefa">
+
+                        <label for="nova-tarefa" class="texto-acessivel">
+                            Nome da tarefa
+                        </label>
+
+                        <input
+                            type="text"
+                            id="nova-tarefa"
+                            v-model="novaTarefa"
+                            placeholder="Ex.: Estudar JavaScript..."
+                            maxlength="100"
+                            autocomplete="off"
+                            required
+                        >
+
+                        <button type="submit">
+                            <span>＋</span> Adicionar
+                        </button>
+
+                    </form>
+
+                </section>
+
+                <section class="painel lista-painel" id="tarefas">
+
+                    <div class="cabecalho-lista">
+                        <div class="titulo-painel">
+                            <div class="icone-painel lista-icone">☷</div>
+
+                            <div>
+                                <h2>Minhas tarefas</h2>
+                                <p>Seu progresso começa aqui.</p>
+                            </div>
+                        </div>
+
+                        <span class="contador-lista">
+                            {{ quantidadeTarefas }} tarefas
+                        </span>
+                    </div>
+
+                    <div class="lista-tarefas">
+
+                        <div
+                            v-if="tarefas.length === 0"
+                            class="mensagem-vazia"
+                        >
+                            <div class="vazio-icone">✓</div>
+
+                            <h3>Tudo começa com uma ideia.</h3>
+
+                            <p>
+                                Adicione sua primeira tarefa e tire seus
+                                planos do papel.
+                            </p>
+                        </div>
+
+                        <div
+                            v-for="tarefa in tarefas"
+                            :key="tarefa.id"
+                            class="item-tarefa"
+                        >
+                            <div class="informacoes-tarefa">
+
+                                <button
+                                    type="button"
+                                    class="botao-concluir"
+                                    :class="{ concluida: tarefa.concluida }"
+                                    @click="alternarTarefa(tarefa.id)"
+                                    :aria-label="tarefa.concluida ? 'Desmarcar tarefa' : 'Concluir tarefa'"
+                                >
+                                    {{ tarefa.concluida ? '✓' : '' }}
+                                </button>
+
+                                <span
+                                    class="texto-tarefa"
+                                    :class="{ concluida: tarefa.concluida }"
+                                >
+                                    {{ tarefa.nome }}
+                                </span>
+
+                            </div>
+
+                            <button
+                                type="button"
+                                class="botao-excluir"
+                                @click="removerTarefa(tarefa.id)"
+                                aria-label="Excluir tarefa"
+                            >
+                                Excluir
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <footer class="rodape">
+                    <span>TASKFLOW</span>
+                    <span class="ponto-rodape">.</span>
+                    <span>ORGANIZE</span>
+                    <span class="ponto-rodape">.</span>
+                    <span>EVOLUA</span>
+                </footer>
+
+            </main>
+
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="app.js"></script>
+
+</body>
+
+</html>
